@@ -5,5 +5,3 @@ lighthouse:
   image:
     tag: latest
     repository: lighthouse
-  lighthouse.image.tag
-lighthouse.image.repository

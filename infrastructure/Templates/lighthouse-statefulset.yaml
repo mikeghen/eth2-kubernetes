@@ -35,7 +35,7 @@ spec:
             limits:
               memory: 8000Mi
             requests:
-              memory: 4000Mi
+              memory: 1000Mi
   volumeClaimTemplates:
     - metadata:
         name: lighthouse-data
