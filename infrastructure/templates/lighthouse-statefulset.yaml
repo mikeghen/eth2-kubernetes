@@ -14,17 +14,14 @@ spec:
         app: lighthouse-{{ .Values.lighthouse.network }}
     spec:
       containers:
-        - name: lighthouse-{{ .Values.lighthouse.network }}
+        - name: lighthouse-{{ .Values.lighthouse.network }}-beacon
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
           args:
             [
               "lighthouse",
               "--network", "{{ .Values.lighthouse.network }}", "beacon",
-              "--http", "--http-address", "0.0.0.0",
+              "--http",
               "--metrics",
-              {{ if .Values.lighthouse.slasher }}
-              "--slasher", "--slasher-history-length", "256", "--slasher-max-db-size", "16", "--debug-level", "debug",
-              {{ end }}
             ]
           env:
           ports:
@@ -40,11 +37,31 @@ spec:
               memory: 8000Mi
             requests:
               memory: 1000Mi
+        - name: lighthouse-{{ .Values.lighthouse.network }}-validator
+          image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
+          args:
+            [
+              "lighthouse",
+              "--network", "{{ .Values.lighthouse.network }}", "validator",
+              "--http",
+            ]
+          env:
+          ports:
+            - containerPort: 5062
+              name: lighthousehttp
+          volumeMounts:
+            - name: lighthouse-data
+              mountPath: "/root/.lighthouse"
+          resources:
+            limits:
+              memory: 8000Mi
+            requests:
+              memory: 1000Mi
   volumeClaimTemplates:
     - metadata:
         name: lighthouse-data
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes: ["ReadWriteMany"]
         storageClassName: standard
         resources:
           requests:
