@@ -9,9 +9,10 @@ This is a reference implementation for managing ETH2 staking on Kubernetes. This
 
 :warning: This is a work in progress so the user guide are pretty vague.
 
-1. Review Lighthouse Book
-2. Follow the ETH2 set up guide to get your validator keys, this should provide you with a `./validator_keys` directory
-3. Create a directory in this repo for the pyrmont network and your validaors
+0. Watch this great [video from ETHOnline](https://www.youtube.com/watch?v=96UfJPYyFcs&feature=youtu.be&t=17049) about ETH2 staking from SuperFiz
+1. Review [Lighthouse Book](https://lighthouse-book.sigmaprime.io/intro.html)
+2. Follow the setup process on the [Pyrmont Eth2 Launchpad](https://pyrmont.launchpad.ethereum.org/), this should provide you with a `./validator_keys` directory
+3. Create a directory in this repo for the pyrmont network and your validators
 ```
 mkdir -p pyrmont/validators
 ```
@@ -21,7 +22,7 @@ mv ./validator_keys ./pyrmont/validators/
 ```
 5. Use lighthouse with Docker to import your validators
 ```
-docker run -it -v /path/to/eth2/:/root/.lighthouse/ sigp/lighthouse lighthouse --network pyrmont account validator import --directory /root/.lighthouse/pyrmont/validators/validator_keys
+docker run -it -v /path/to/eth2-kubernetes/:/root/.lighthouse/ sigp/lighthouse lighthouse --network pyrmont account validator import --directory /root/.lighthouse/pyrmont/validators/validator_keys
 ```
 Which should look like:
 ```
@@ -46,27 +47,28 @@ Successfully updated validator_definitions.yml.
 ```
 6. Confirm `pyrmont/validators/validator_definitions.yaml` exists and that there is a directory in `pyrmont/validators` for the validator that contains the keystore file. For example:
 ```
-- pyrmont
-  - validators
-    - 0xaaaa
-      - keystore-XXXXXX.json
-    - validator_definitions.yaml
+├── pyrmont
+    └── validators
+    |   └── 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    └── keystore-XXXXXX.json
+    └── validator_definitions.yaml
 ```
 :warning: Do not commit this directory to Github!
-7. Create a new project on GCP with a unique project ID
-8. Create a Storage bucket with the name of the form: `YOUR_PROJECT_ID-lighthouse` (e.g. `eth2-lighthouse`)
+7. Create a new project on GCP with a unique project ID. For this example, you will see `YOUR_PROJECT_ID`, you'll replace this with the project ID you select in this step.
+8. Create a Storage bucket with the name of the form: `YOUR_PROJECT_ID-lighthouse`
 9. Upload the `./prymont` folder into the newly created bucket
 10. Create a new Kubernetes cluster. I used a single node cluster with a standard N2 instance, 2 CPU, 8 GB memory for testing on testnet.
-11. Open the shell in GCP and connect to the cluster
-12. Clone your eth2 repo into the shell
+11. Open the **Cloud Shell Terminal** in GCP and connect to the cluster
+12. Clone your eth2 repo into the terminal and go into it:
 ```
-git clone https://github.com/your_username/eth2
+git clone https://github.com/your_username/eth2-kubernetes
+cd eth2-kubernetes
 ```
-13. Use `gsutil` to copy your validator folder from storage:
+13. Use `gsutil` to copy your validator folder from storage into the `lighthouse` directory in the clone repo:
 ```
 gsutil cp -r gs://YOUR_PROJECT_ID-lighthouse/pyrmont ./lighthouse
 ```
-14. Build the lighthouse docker image with your validator config and push into GCR:
+14. Build the lighthouse docker image with your validator config and push into Google Container Registery:
 ```
 docker build -t us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest ./lighthouse/ --build-arg VALIDATOR_PATH=pyrmont/validators
 
@@ -76,3 +78,5 @@ docker push us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest
 ```
 helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/YOUR_PROJECT_ID/lighthouse eth2-pyrmont infrastructure/
 ```
+
+16. Check that the deployment was successful using the
