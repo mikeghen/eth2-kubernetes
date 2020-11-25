@@ -58,7 +58,7 @@ Successfully updated validator_definitions.yml.
 8. Create a Storage bucket with the name of the form: `YOUR_PROJECT_ID-lighthouse`
 9. Upload the `./prymont` folder into the newly created bucket
 10. Create a new Kubernetes cluster. I used a single node cluster with a standard N2 instance, 2 CPU, 8 GB memory for testing on testnet.
-11. Open the **Cloud Shell Terminal** in GCP and connect to the cluster
+11. Open the **Cloud Shell Terminal** in GCP and connect to the cluster. This can also be done from your local terminal if you have `gcloud` installed.
 12. Clone your eth2 repo into the terminal and go into it:
 ```
 git clone https://github.com/your_username/eth2-kubernetes
