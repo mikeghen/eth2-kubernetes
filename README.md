@@ -45,7 +45,9 @@ Password is correct.
 Successfully imported keystore.
 Successfully updated validator_definitions.yml.
 ```
+
 6. Confirm `pyrmont/validators/validator_definitions.yaml` exists and that there is a directory in `pyrmont/validators` for the validator that contains the keystore file. For example:
+
 ```
 ├── pyrmont
     └── validators
@@ -54,17 +56,23 @@ Successfully updated validator_definitions.yml.
     └── validator_definitions.yaml
 ```
 :warning: Do not commit this directory to Github!
+
 7. Create a new project on GCP with a unique project ID. For this example, you will see `YOUR_PROJECT_ID`, you'll replace this with the project ID you select in this step.
+
 8. Create a Storage bucket with the name of the form: `YOUR_PROJECT_ID-lighthouse`
+
 9. Upload the `./prymont` folder into the newly created bucket
+
 10. Create a new Kubernetes cluster. I used a single node cluster with a standard N2 instance, 2 CPU, 8 GB memory for testing on testnet.
+
 11. Open the **Cloud Shell Terminal** in GCP and connect to the cluster. This can also be done from your local terminal if you have `gcloud` installed.
+
 12. Clone your eth2 repo into the terminal and go into it:
 ```
 git clone https://github.com/your_username/eth2-kubernetes
 cd eth2-kubernetes
 ```
-13. Use `gsutil` to copy your validator folder from storage into the `lighthouse` directory in the clone repo:
+13. Use `gsutil` to copy your valid ator folder from storage into the `lighthouse` directory in the clone repo:
 ```
 gsutil cp -r gs://YOUR_PROJECT_ID-lighthouse/pyrmont ./lighthouse
 ```
