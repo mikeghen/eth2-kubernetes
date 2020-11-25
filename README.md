@@ -1,6 +1,7 @@
 # Ethereum 2.0 Staking with Kubernetes of GCP
 
 :warning: This is for Staking on Testnet and has not been tested on mainnet.
+
 :warning: This is a work in progress so the user guide are pretty vague.
 
 # User Guide
@@ -52,7 +53,7 @@ Successfully updated validator_definitions.yml.
 7. Create a new project on GCP with a unique project ID
 8. Create a Storage bucket with the name of the form: `YOUR_PROJECT_ID-lighthouse` (e.g. `eth2-lighthouse`)
 9. Upload the `./prymont` folder into the newly created bucket
-10. Create a new Kubernetes cluster. I used a single node cluster with a standard N2 instance, 2 CPU, 8 GB memory for testing on testnet. 
+10. Create a new Kubernetes cluster. I used a single node cluster with a standard N2 instance, 2 CPU, 8 GB memory for testing on testnet.
 11. Open the shell in GCP and connect to the cluster
 12. Clone your eth2 repo into the shell
 ```
