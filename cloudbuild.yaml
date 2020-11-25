@@ -1,3 +1,4 @@
+# NOTE: This is a work in progres, use as a reference only
 substitutions:
   _TARGET_CLUSTER: eth2
   _TARGET_ZONE: us-central1-c
