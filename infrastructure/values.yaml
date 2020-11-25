@@ -5,3 +5,4 @@ lighthouse:
   image:
     tag: latest
     repository: lighthouse
+  slasher: false

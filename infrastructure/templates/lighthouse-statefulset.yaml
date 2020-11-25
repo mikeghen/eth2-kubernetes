@@ -21,6 +21,10 @@ spec:
               "lighthouse",
               "--network", "{{ .Values.lighthouse.network }}", "beacon",
               "--http", "--http-address", "0.0.0.0",
+              "--metrics",
+              {{ if .Values.lighthouse.slasher }}
+              "--slasher", "--slasher-history-length", "256", "--slasher-max-db-size", "16", "--debug-level", "debug",
+              {{ end }}
             ]
           env:
           ports:

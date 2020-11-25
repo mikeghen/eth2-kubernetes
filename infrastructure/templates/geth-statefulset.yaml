@@ -26,7 +26,7 @@ spec:
               "--ws",
               "--ws.addr=0.0.0.0",
               "--datadir=/data",
-               {{ if eq .Values.geth.network "goerli" }}--goerli{{ end }}
+              {{ if eq .Values.geth.network "goerli" }}"--goerli",{{ end }}
             ]
           env:
           ports:
