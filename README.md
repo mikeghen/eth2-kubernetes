@@ -87,4 +87,4 @@ docker push us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest
 helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/YOUR_PROJECT_ID/lighthouse eth2-pyrmont infrastructure/
 ```
 
-16. Check that the deployment was successful using the
+16. Check that the deployment was successful in the GKE dashboard
