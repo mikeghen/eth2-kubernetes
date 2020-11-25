@@ -46,7 +46,7 @@ spec:
         name: geth-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: do-block-storage
+        storageClassName: standard
         resources:
           requests:
             storage: 1000Gi
