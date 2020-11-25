@@ -20,7 +20,7 @@ spec:
             [
               "--network", "{{ .Values.lighthouse.network }}", "beacon",
               "--http", "--http-address", "0.0.0.0",
-              "-v", "/.lighthouse",
+              "-v", "/root/.lighthouse",
             ]
           env:
           ports:
@@ -30,7 +30,7 @@ spec:
               name: lighthousehttp
           volumeMounts:
             - name: lighthouse-data
-              mountPath: "/.lighthouse"
+              mountPath: "/root/.lighthouse"
           resources:
             limits:
               memory: 8000Mi
