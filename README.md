@@ -2,9 +2,12 @@
 
 :warning: This is for Staking on Testnet and has not been tested on mainnet.
 
-:warning: This is a work in progress so the user guide are pretty vague.
+# Overview
+This is a reference implementation for managing ETH2 staking on Kubernetes. This implementation uses geth as the ETH1 client and lighthouse as the ETH2 client. Use this repo for educational purposes only. Nothing here should be considered "mainnet ready," it's purely designed to be an example for running ETH2 on Kubernetes and has only been tested on testnet.
 
 # User Guide
+
+:warning: This is a work in progress so the user guide are pretty vague.
 
 1. Review Lighthouse Book
 2. Follow the ETH2 set up guide to get your validator keys, this should provide you with a `./validator_keys` directory
