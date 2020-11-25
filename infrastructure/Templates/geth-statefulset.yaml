@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: geth-{{ .Values.geth.network }}-full
+spec:
+  serviceName: geth-{{ .Values.geth.network }}-full
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geth-{{ .Values.geth.network }}-full
+  template:
+    metadata:
+      labels:
+        app: geth-{{ .Values.geth.network }}-full
+    spec:
+      containers:
+        - name: geth-{{ .Values.geth.network }}-full
+          image: ethereum/client-go:v1.9.23
+          args:
+            [
+              "--http",
+              "--http.addr=0.0.0.0",
+              "--http.vhosts=geth-{{ .Values.geth.network }}-full",
+              "--http.api=eth,net,web3,txpool",
+              "--ws",
+              "--ws.addr=0.0.0.0",
+              "--datadir=/data",
+               {{ if eq .Values.geth.network "goerli" }}--goerli{{ end }}
+            ]
+          env:
+          ports:
+            - containerPort: 8545
+              name: gethrpc
+            - containerPort: 30303
+              name: gethdiscovery
+          volumeMounts:
+            - name: geth-data
+              mountPath: "/data"
+          resources:
+            limits:
+              memory: 8000Mi
+            requests:
+              memory: 4000Mi
+  volumeClaimTemplates:
+    - metadata:
+        name: geth-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: do-block-storage
+        resources:
+          requests:
+            storage: 1000Gi

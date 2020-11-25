@@ -1,0 +1,9 @@
+geth:
+  network: goerli
+lighthouse:
+  network: pyrmont
+  image:
+    tag: latest
+    repository: lighthouse
+  lighthouse.image.tag
+lighthouse.image.repository

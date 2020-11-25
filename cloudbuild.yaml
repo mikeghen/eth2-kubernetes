@@ -1,0 +1,38 @@
+substitutions:
+  _TARGET_CLUSTER: eth2
+  _TARGET_ZONE: us-central1-c
+  _LIGHTHOUSE_NETWORK: pyrmont
+  _GETH_NETWORK: goerli
+
+steps:
+## Lighthouse
+# NOTE: Assumes validators directory is stored in GCS bucket
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['gsutil', 'cp', '-r', 'gs://$PROJECT_ID-lighthouse/$_LIGHTHOUSE_NETWORK/validators', './lighthouse/$_LIGHTHOUSE_NETWORK/validators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us.gcr.io/$PROJECT_ID/lighthouse:$COMMIT_SHA', './lighthouse']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/$PROJECT_ID/lighthouse:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'us.gcr.io/$PROJECT_ID/lighthouse:$COMMIT_SHA', 'us.gcr.io/$PROJECT_ID/lighthouse:latest']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/$PROJECT_ID/lighthouse:latest']
+
+- name: 'gcr.io/$PROJECT_ID/helm'
+  args: [
+    'upgrade',
+    '--set',
+    'lighthouse.image.tag=$COMMIT_SHA',
+    '--set',
+    'lighthouse.image.repository=us.gcr.io/$PROJECT_ID/$_IMAGE_NAME',
+    '--install',
+    '$_IMAGE_NAME',
+    '--namespace',
+    'tellor-pool',
+    'infrastructure/leaders/'
+  ]
+  env:
+  - 'TILLERLESS=true'
+  - 'TILLER_NAMESPACE=tellor-pool'
+  - 'CLOUDSDK_COMPUTE_ZONE=$_TARGET_ZONE'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=$_TARGET_CLUSTER'

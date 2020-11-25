@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lighthouse-{{ .Values.lighthouse.network }}
+spec:
+  serviceName: lighthouse-{{ .Values.lighthouse.network }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lighthouse-{{ .Values.lighthouse.network }}
+  template:
+    metadata:
+      labels:
+        app: lighthouse-{{ .Values.lighthouse.network }}
+    spec:
+      containers:
+        - name: lighthouse-{{ .Values.lighthouse.network }}
+          image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
+          args:
+            [
+              "--network", "{{ .Values.lighthouse.network }}", "beacon",
+              "--http", "--http-address", "0.0.0.0",
+              "-v", "/.lighthouse",
+            ]
+          env:
+          ports:
+            - containerPort: 9000
+              name: lighthousepeers
+            - containerPort: 5052
+              name: lighthousehttp
+          volumeMounts:
+            - name: lighthouse-data
+              mountPath: "/.lighthouse"
+          resources:
+            limits:
+              memory: 8000Mi
+            requests:
+              memory: 4000Mi
+  volumeClaimTemplates:
+    - metadata:
+        name: lighthouse-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: do-block-storage
+        resources:
+          requests:
+            storage: 256Gi
