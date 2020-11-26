@@ -18,6 +18,7 @@ spec:
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
           args:
             [
+              "lighthouse",
               "--network", "{{ .Values.lighthouse.network }}", "beacon",
               "--http",
               "--metrics",
@@ -40,6 +41,7 @@ spec:
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
           args:
             [
+              "lighthouse",
               "--network", "{{ .Values.lighthouse.network }}", "validator",
               "--http",
             ]
