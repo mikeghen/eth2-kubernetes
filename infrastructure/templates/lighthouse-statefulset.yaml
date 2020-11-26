@@ -13,6 +13,13 @@ spec:
       labels:
         app: lighthouse-{{ .Values.lighthouse.network }}
     spec:
+      initContainers:
+        - name: setup-validators
+          image: busybox:1.28
+          command: ['sh', '-c', "cp -r /root/pyrmont/validators /root/.lighthouse/pyrmont/validators"]
+          volumeMounts:
+            - name: lighthouse-data
+              mountPath: "/root/.lighthouse"
       containers:
         - name: lighthouse-{{ .Values.lighthouse.network }}-beacon
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
