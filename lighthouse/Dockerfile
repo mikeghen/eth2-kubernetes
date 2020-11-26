@@ -1,7 +1,3 @@
 FROM sigp/lighthouse:v1.0.0
 
-ARG VALIDATOR_PATH=pyrmont
-
-ENV VALIDATOR_PATH=$VALIDATOR_PATH
-
-COPY ./$VALIDATOR_PATH /root/.lighthouse/$VALIDATOR_PATH
+COPY ./validators /root/.lighthouse/prymont/validator
