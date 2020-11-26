@@ -16,7 +16,7 @@ spec:
       initContainers:
         - name: setup-validators
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
-          command: ['sh', '-c', "cp -r /root/pyrmont/validators /root/.lighthouse/pyrmont/validators"]
+          command: ['sh', '-c', "mkdir /root/.lighthouse; cp -r /root/pyrmont/validators /root/.lighthouse/pyrmont/validators"]
           volumeMounts:
             - name: lighthouse-data
               mountPath: "/root/.lighthouse"
