@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: setup-validators
-          image: busybox:1.28
+          image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
           command: ['sh', '-c', "cp -r /root/pyrmont/validators /root/.lighthouse/pyrmont/validators"]
           volumeMounts:
             - name: lighthouse-data
