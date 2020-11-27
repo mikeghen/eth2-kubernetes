@@ -8,10 +8,12 @@ spec:
     statefulset.kubernetes.io/pod-name: geth-{{ .Values.geth.network }}-full
   ports:
   - protocol: TCP
+    name: peers-tcp
     port: 30303
     targetPort: 30303
     nodePort: 30303
   - protocol: UDP
+    name: peers-udp
     port: 30303
     targetPort: 30303
     nodePort: 30303

@@ -9,9 +9,11 @@ spec:
   ports:
   - protocol: TCP
     port: 9000
+    name: peers-tcp
     targetPort: 9000
     nodePort: 39000
   - protocol: UDP
+    name: peers-udp
     port: 9000
     targetPort: 9000
     nodePort: 39000
