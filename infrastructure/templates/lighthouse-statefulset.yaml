@@ -51,6 +51,7 @@ spec:
               "lighthouse",
               "--network", "{{ .Values.lighthouse.network }}", "validator",
               "--http",
+              "--validator-dir", "/root/.lighthouse/pyrmont/validators"
             ]
           env:
           ports:
