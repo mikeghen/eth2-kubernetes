@@ -49,9 +49,9 @@ spec:
           args:
             [
               "lighthouse",
-              "--network", "{{ .Values.lighthouse.network }}", "validator",
+              "--network", "{{ .Values.lighthouse.network }}", "vc",
               "--http",
-              "--validator-dir", "/root/.lighthouse/pyrmont/validators"
+              "--disable-auto-discover",
             ]
           env:
           ports:
