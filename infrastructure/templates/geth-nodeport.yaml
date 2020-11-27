@@ -5,7 +5,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    statefulset.kubernetes.io/pod-name: geth-{{ .Values.geth.network }}-full
+    statefulset.kubernetes.io/pod-name: geth-{{ .Values.geth.network }}-full-0
   ports:
   - protocol: TCP
     name: peers-tcp

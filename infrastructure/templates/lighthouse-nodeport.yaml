@@ -5,7 +5,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    statefulset.kubernetes.io/pod-name: lighthouse-{{ .Values.lighthouse.network }}
+    statefulset.kubernetes.io/pod-name: lighthouse-{{ .Values.lighthouse.network }}-0
   ports:
   - protocol: TCP
     port: 9000
