@@ -16,4 +16,4 @@ spec:
     name: peers-udp
     port: 9000
     targetPort: 9000
-    nodePort: 39000
+    nodePort: 30900
