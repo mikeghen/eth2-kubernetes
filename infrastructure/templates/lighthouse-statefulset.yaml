@@ -48,10 +48,10 @@ spec:
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
           args:
             [
-              "lighthouse",
-              "--network", "{{ .Values.lighthouse.network }}", "vc",
+              "lighthouse", "vc",
+              "--network", "{{ .Values.lighthouse.network }}",
               "--http",
-              "--disable-auto-discover",
+              "--init-slashing-protection",
             ]
           env:
           ports:
