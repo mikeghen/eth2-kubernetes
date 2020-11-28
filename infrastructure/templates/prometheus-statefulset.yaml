@@ -14,12 +14,18 @@ spec:
         app: prometheus
     spec:
       initContainers:
-        - name: prometheus-setup
+        - name: prometheus-data-permission-fix
           image: busybox
-          command: ['sh', '-c', "chown -R 65534:65534 /prometheus; mkdir -p /prometheus/targets/; cp /scrape-targets.json /prometheus/targets/scrape-targets.json"]
+          command: ["/bin/chown", "-R", "65534:65534", "/prometheus"]
           volumeMounts:
           - name: prometheus-data
             mountPath: /prometheus
+        - name: prometheus-setup
+          image: busybox
+          command: ["/bin/mv", "-p", "/scrape-targets.json", "/prometheus/targets/scrape-targets.json"]
+          volumeMounts:
+          - name: prometheus-claim1
+            mountPath: /prometheus/targets
       containers:
         - image: {{.Values.prometheus.image.repository }}:{{.Values.prometheus.image.tag }}
           name: prometheus
@@ -29,6 +35,8 @@ spec:
           volumeMounts:
             - mountPath: /prometheus
               name: prometheus-data
+            - mountPath: /prometheus/targets
+              name: prometheus-claim1
           resources:
             limits:
               memory: 500Mi
@@ -37,6 +45,14 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: prometheus-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 25Gi
+    - metadata:
+        name: prometheus-claim1
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: standard
