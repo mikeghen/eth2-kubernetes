@@ -28,7 +28,7 @@ spec:
               "lighthouse",
               "--network", "{{ .Values.lighthouse.network }}", "beacon",
               "--http", "--http-address", "0.0.0.0",
-              "--metrics",
+              "--metrics", "--metrics-address", "0.0.0.0"
             ]
           env:
           ports:
