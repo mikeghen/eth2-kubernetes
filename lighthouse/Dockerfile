@@ -1,4 +1,4 @@
-FROM sigp/lighthouse:v1.0.0
+FROM sigp/lighthouse:latest
 
 RUN apt-get install curl
 
