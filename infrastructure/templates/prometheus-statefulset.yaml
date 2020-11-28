@@ -22,7 +22,7 @@ spec:
             mountPath: /prometheus
         - name: prometheus-setup
           image: busybox
-          command: ["/bin/mv", "-p", "/scrape-targets.json", "/prometheus/targets/scrape-targets.json"]
+          command: ["/bin/mv", "-f", "/scrape-targets.json", "/prometheus/targets/scrape-targets.json"]
           volumeMounts:
           - name: prometheus-claim1
             mountPath: /prometheus/targets
