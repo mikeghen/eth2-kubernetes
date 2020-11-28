@@ -16,13 +16,7 @@ spec:
       initContainers:
         - name: prometheus-data-permission-fix
           image: busybox
-          command: ["/bin/chmod", "-R", "65534:6553", "/prometheus"]
-          volumeMounts:
-          - name: prometheus-data
-            mountPath: /prometheus
-        - name: prometheus-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod", "-R", "65534:6553", "/prometheus"]
+          command: ["/bin/chown", "-R", "65534:6553", "/prometheus"]
           volumeMounts:
           - name: prometheus-data
             mountPath: /prometheus
