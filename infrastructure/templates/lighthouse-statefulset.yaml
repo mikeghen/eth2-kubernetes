@@ -29,7 +29,6 @@ spec:
               "--network", "{{ .Values.lighthouse.network }}", "beacon",
               "--http", "--http-address", "0.0.0.0",
               "--metrics",
-              "--disable-auto-discover",
             ]
           env:
           ports:
@@ -53,6 +52,7 @@ spec:
               "--network", "{{ .Values.lighthouse.network }}",
               "--http",
               "--init-slashing-protection",
+              "--disable-auto-discover",
             ]
           env:
           ports:
