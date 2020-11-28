@@ -16,7 +16,7 @@ spec:
       initContainers:
         - name: prometheus-setup
           image: busybox
-          command: ["/bin/chown -R 65534:65534 /prometheus; cp -R /scrape-targets.json /prometheus/targets/scrape-targets.json"]
+          command: ["/bin/chown -R 65534:65534 /prometheus; mkdir -p /prometheus/targets/; cp /scrape-targets.json /prometheus/targets/scrape-targets.json"]
           volumeMounts:
           - name: prometheus-data
             mountPath: /prometheus
