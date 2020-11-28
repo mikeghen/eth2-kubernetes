@@ -10,4 +10,4 @@ spec:
   - protocol: TCP
     port: 5052
     name: http
-    targetPort: 9000
+    targetPort: 5052
