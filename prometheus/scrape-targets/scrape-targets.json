@@ -1,0 +1,10 @@
+[
+  {
+    "labels": {
+      "job": "nodes"
+    },
+    "targets": [
+      "lighthouse:5054"
+    ]
+  }
+]

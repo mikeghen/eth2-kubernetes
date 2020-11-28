@@ -1,8 +1,18 @@
 geth:
   network: goerli
+
 lighthouse:
   network: pyrmont
   image:
     tag: latest
     repository: lighthouse
-  slasher: false
+
+grafana:
+  image:
+    repository: grafana
+    tag: latest
+
+prometheus:
+  image:
+    repository: prometheus
+    tag: latest
