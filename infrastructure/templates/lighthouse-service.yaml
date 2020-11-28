@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: lighthouse
 spec:
-  type: CLusterIP
+  type: ClusterIP
   selector:
     statefulset.kubernetes.io/pod-name: lighthouse-{{ .Values.lighthouse.network }}-0
   ports:
