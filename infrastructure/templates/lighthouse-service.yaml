@@ -13,5 +13,9 @@ spec:
     targetPort: 5052
   - protocol: TCP
     port: 5064
-    name: metrics
+    name: validator-metrics
     targetPort: 5064
+  - protocol: TCP
+    port: 5054
+    name: beacon-metrics
+    targetPort: 5054
