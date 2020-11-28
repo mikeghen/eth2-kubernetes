@@ -11,3 +11,7 @@ spec:
     port: 5052
     name: http
     targetPort: 5052
+  - protocol: TCP
+    port: 5054
+    name: metrics
+    targetPort: 5054

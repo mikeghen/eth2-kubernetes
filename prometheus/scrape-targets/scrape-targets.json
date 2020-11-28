@@ -4,7 +4,7 @@
       "job": "nodes"
     },
     "targets": [
-      "lighthouse:5052"
+      "lighthouse:5054"
     ]
   }
 ]
