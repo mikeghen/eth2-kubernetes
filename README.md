@@ -20,7 +20,7 @@ mkdir -p pyrmont/validators
 ```
 mv ./validator_keys ./pyrmont/validators/
 ```
-5. Use lighthouse with Docker to import your validators
+5. Use lighthouse with Docker to import your validators. You will need to run this locally and enter the password protecting your validator keys.
 ```
 docker run -it -v /path/to/eth2-kubernetes/:/root/.lighthouse/ sigp/lighthouse lighthouse --network pyrmont account validator import --directory /root/.lighthouse/pyrmont/validators/validator_keys
 ```
@@ -72,7 +72,7 @@ Successfully updated validator_definitions.yml.
 git clone https://github.com/your_username/eth2-kubernetes
 cd eth2-kubernetes
 ```
-13. Use `gsutil` to copy your valid ator folder from storage into the `lighthouse` directory in the clone repo:
+13. Use `gsutil` to copy your validators folder from storage into the `lighthouse` directory in the clone repo:
 ```
 gsutil cp -r gs://YOUR_PROJECT_ID-lighthouse/pyrmont ./lighthouse
 ```
@@ -82,9 +82,25 @@ docker build -t us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest ./lighthouse/ --buil
 
 docker push us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest
 ```
+15. :Telemetry: - Prometheus and Grafana are include for monitoring your ETH2 setup. You will need to build and push those images as well:
+```
+docker build -t us.gcr.io/YOUR_PROJECT_ID/prometheus:latest ./prometheus
+docker build -t us.gcr.io/YOUR_PROJECT_ID/grafana:latest ./grafana
+
+docker push us.gcr.io/YOUR_PROJECT_ID/prometheus:latest
+docker push us.gcr.io/YOUR_PROJECT_ID/grafana:latest
+```
 15. Use `helm` to deploy `geth` and `lighthouse` to Kubernetes
 ```
-helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/YOUR_PROJECT_ID/lighthouse eth2-pyrmont infrastructure/
+helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-pyrmont infrastructure/
 ```
-
 16. Check that the deployment was successful in the GKE dashboard
+17. The storage disks created will persist, should you need to delete and redeploy the infrastructure, you can run:
+```
+helm delete eth2-pyrmont
+```
+Followed by:
+```
+helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-pyrmont infrastructure/
+
+```
