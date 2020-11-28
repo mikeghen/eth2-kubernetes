@@ -13,6 +13,13 @@ spec:
       labels:
         app: prometheus
     spec:
+      initContainers:
+        - name: prometheus-data-permission-fix
+          image: busybox
+          command: ["/bin/chmod","-R","777", "/prometheus"]
+          volumeMounts:
+          - name: prometheus-data
+            mountPath: /prometheus
       containers:
         - image: {{.Values.prometheus.image.repository }}:{{.Values.prometheus.image.tag }}
           name: prometheus
