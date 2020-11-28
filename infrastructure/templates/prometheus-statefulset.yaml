@@ -16,7 +16,13 @@ spec:
       initContainers:
         - name: prometheus-data-permission-fix
           image: busybox
-          command: ["/bin/chown", "-R", "65534:65534", "/prometheus"]
+          command: ["/bin/chmod", "-R", "65534:6553", "/prometheus"]
+          volumeMounts:
+          - name: prometheus-data
+            mountPath: /prometheus
+        - name: prometheus-data-permission-fix
+          image: busybox
+          command: ["/bin/chmod", "-R", "65534:6553", "/prometheus"]
           volumeMounts:
           - name: prometheus-data
             mountPath: /prometheus
@@ -24,8 +30,8 @@ spec:
           image: {{.Values.prometheus.image.repository }}:{{.Values.prometheus.image.tag }}
           command: ['sh', '-c', "mv -f /scrape-targets.json /prometheus/targets/scrape-targets.json"]
           volumeMounts:
-          - name: prometheus-claim1
-            mountPath: /prometheus/targets
+          - name: prometheus-data
+            mountPath: /prometheus
       containers:
         - image: {{.Values.prometheus.image.repository }}:{{.Values.prometheus.image.tag }}
           name: prometheus
@@ -35,8 +41,6 @@ spec:
           volumeMounts:
             - mountPath: /prometheus
               name: prometheus-data
-            - mountPath: /prometheus/targets
-              name: prometheus-claim1
           resources:
             limits:
               memory: 500Mi
@@ -45,14 +49,6 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: prometheus-data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: standard
-        resources:
-          requests:
-            storage: 25Gi
-    - metadata:
-        name: prometheus-claim1
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: standard
