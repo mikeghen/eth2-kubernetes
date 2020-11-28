@@ -13,6 +13,13 @@ spec:
       labels:
         app: grafana
     spec:
+      initContainers:
+        - name: grafana-data-permission-fix
+          image: busybox
+          command: ["/bin/chown","472:472", "/var/lib/grafana"]
+          volumeMounts:
+          - name: grafana-data
+            mountPath: /var/lib/grafana
       containers:
         - image: {{.Values.grafana.image.repository }}:{{.Values.grafana.image.tag }}
           name: grafana
