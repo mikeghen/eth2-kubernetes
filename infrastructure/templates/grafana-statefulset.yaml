@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: grafana
 spec:
+  serviceName: grafana
   replicas: 1
   selector:
     matchLabels:
