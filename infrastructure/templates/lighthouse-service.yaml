@@ -1,19 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: lighthouse-peers
+  name: lighthouse
 spec:
-  type: NodePort
+  type: CLusterIP
   selector:
     statefulset.kubernetes.io/pod-name: lighthouse-{{ .Values.lighthouse.network }}-0
   ports:
   - protocol: TCP
-    port: 9000
-    name: peers-tcp
+    port: 5052
+    name: http
     targetPort: 9000
-    nodePort: 30900
-  - protocol: UDP
-    name: peers-udp
-    port: 9000
-    targetPort: 9000
-    nodePort: 30900
