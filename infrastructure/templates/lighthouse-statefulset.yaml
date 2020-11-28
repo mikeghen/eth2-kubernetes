@@ -36,6 +36,8 @@ spec:
               name: lighthousepeers
             - containerPort: 5052
               name: lighthousehttp
+            - containerPort: 5052
+              name: metrics
           volumeMounts:
             - name: lighthouse-data
               mountPath: "/root/.lighthouse"
@@ -53,11 +55,12 @@ spec:
               "--http",
               "--init-slashing-protection",
               "--disable-auto-discover",
+              "--metrics", "--metrics-address", "0.0.0.0"
             ]
           env:
           ports:
             - containerPort: 5062
-              name: lighthousehttp
+              name: metrics
           volumeMounts:
             - name: lighthouse-data
               mountPath: "/root/.lighthouse"
