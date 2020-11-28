@@ -21,8 +21,8 @@ spec:
           - name: prometheus-data
             mountPath: /prometheus
         - name: prometheus-setup
-          image: busybox
-          command: ["/bin/mv", "-f", "/scrape-targets.json", "/prometheus/targets/scrape-targets.json"]
+          image: {{.Values.prometheus.image.repository }}:{{.Values.prometheus.image.tag }}
+          command: ['sh', '-c', "mv -f /scrape-targets.json /prometheus/targets/scrape-targets.json"]
           volumeMounts:
           - name: prometheus-claim1
             mountPath: /prometheus/targets
