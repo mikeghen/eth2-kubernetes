@@ -22,7 +22,7 @@ spec:
             mountPath: /prometheus
         - name: prometheus-setup
           image: {{.Values.prometheus.image.repository }}:{{.Values.prometheus.image.tag }}
-          command: ['sh', '-c', "mv -f /tmp/scrape-targets.json /prometheus/targets/scrape-targets.json"]
+          command: ['sh', '-c', "mkdir -p /prometheus/targets/; cp -f /tmp/scrape-targets.json /prometheus/targets/scrape-targets.json"]
           volumeMounts:
           - name: prometheus-data
             mountPath: /prometheus
