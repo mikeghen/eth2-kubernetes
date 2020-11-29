@@ -5,6 +5,12 @@
 # Overview
 This is a reference implementation for managing ETH2 staking on Kubernetes. This implementation uses geth as the ETH1 client and lighthouse as the ETH2 client. Use this repo for educational purposes only. Nothing here should be considered "mainnet ready," it's purely designed to be an example for running ETH2 on Kubernetes and has only been tested on testnet.
 
+## The Stack
+* Geth - Ethereum 1.0 full node
+* Lighthouse - Ethereum 2.0 client for running beacon and validator clients
+* Prometheus - Digest metrics from Lighthouse
+* Grafana - Monitoring and alerting for Lighthouse metrics
+
 # User Guide
 
 :warning: This is a work in progress so the user guide are pretty vague.
