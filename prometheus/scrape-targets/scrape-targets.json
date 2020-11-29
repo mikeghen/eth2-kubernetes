@@ -5,7 +5,7 @@
     },
     "targets": [
       "lighthouse:5054",
-      "lighthouse:5056"
+      "lighthouse:5064"
     ]
   }
 ]
