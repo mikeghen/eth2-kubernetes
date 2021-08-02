@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: geth-{{ .Values.geth.network }}-full
-          image: ethereum/client-go:v1.9.23
+          image: ethereum/client-go:latest
           args:
             [
               "--http",
