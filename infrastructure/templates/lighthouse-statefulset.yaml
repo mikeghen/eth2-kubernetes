@@ -16,7 +16,7 @@ spec:
       initContainers:
         - name: setup-validators
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
-          command: ['sh', '-c', "mkdir -p /root/.lighthouse/pyrmont; rm -rf /root/.lighthouse/pyrmont/validators; cp -r /root/pyrmont/validators /root/.lighthouse/pyrmont/validators"]
+          command: ['sh', '-c', "mkdir -p /root/.lighthouse/{{ .Values.lighthouse.network }}; rm -rf /root/.lighthouse/{{ .Values.lighthouse.network }}/validators; cp -r /root/{{ .Values.lighthouse.network }}/validators /root/.lighthouse/{{ .Values.lighthouse.network }}/validators"]
           volumeMounts:
             - name: lighthouse-data
               mountPath: "/root/.lighthouse"
@@ -43,8 +43,10 @@ spec:
               mountPath: "/root/.lighthouse"
           resources:
             limits:
+              cpu: "4000m"
               memory: 8000Mi
             requests:
+              cpu: "2000m"
               memory: 1000Mi
         - name: lighthouse-{{ .Values.lighthouse.network }}-validator
           image: {{.Values.lighthouse.image.repository }}:{{.Values.lighthouse.image.tag }}
