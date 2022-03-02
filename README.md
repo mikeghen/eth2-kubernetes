@@ -17,27 +17,27 @@ This is a reference implementation for managing ETH2 staking on Kubernetes. This
 
 0. Watch this great [video from ETHOnline](https://www.youtube.com/watch?v=96UfJPYyFcs&feature=youtu.be&t=17049) about ETH2 staking from SuperFiz
 1. Review [Lighthouse Book](https://lighthouse-book.sigmaprime.io/intro.html)
-2. Follow the setup process on the [Pyrmont Eth2 Launchpad](https://pyrmont.launchpad.ethereum.org/), this should provide you with a `./validator_keys` directory
-3. Create a directory in this repo for the pyrmont network and your validators
+2. Follow the setup process on the [Pyrmont Eth2 Launchpad](https://prater.launchpad.ethereum.org/), this should provide you with a `./validator_keys` directory
+3. Create a directory in this repo for the prater network and your validators
 ```
-mkdir -p pyrmont/validators
+mkdir -p prater/validators
 ```
-4. Move your `validator_keys` in `pyrmont/validators`
+4. Move your `validator_keys` in `prater/validators`
 ```
-mv ./validator_keys ./pyrmont/validators/
+mv ./validator_keys ./prater/validators/
 ```
 5. Use lighthouse with Docker to import your validators. You will need to run this locally and enter the password protecting your validator keys.
 ```
-docker run -it -v /path/to/eth2-kubernetes/:/root/.lighthouse/ sigp/lighthouse lighthouse --network pyrmont account validator import --directory /root/.lighthouse/pyrmont/validators/validator_keys
+docker run -it -v /path/to/eth2-kubernetes/:/root/.lighthouse/ sigp/lighthouse lighthouse --network prater account validator import --directory /root/.lighthouse/prater/validators/validator_keys
 ```
 Which should look like:
 ```
-Running account manager for pyrmont network
-validator-dir path: "/root/.lighthouse/pyrmont/validators"
-validator-dir path: "/root/.lighthouse/pyrmont/validators"
+Running account manager for prater network
+validator-dir path: "/root/.lighthouse/prater/validators"
+validator-dir path: "/root/.lighthouse/prater/validators"
 WARNING: DO NOT USE THE ORIGINAL KEYSTORES TO VALIDATE WITH ANOTHER CLIENT, OR YOU WILL GET SLASHED.
 
-Keystore found at "/root/.lighthouse/pyrmont/validators/validator_keys/keystore-m_XXXXXXXXXXXXX.json":
+Keystore found at "/root/.lighthouse/prater/validators/validator_keys/keystore-m_XXXXXXXXXXXXX.json":
 
  - Public key: 0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
  - UUID: XXXXXXXXXXXX
@@ -52,10 +52,10 @@ Successfully imported keystore.
 Successfully updated validator_definitions.yml.
 ```
 
-6. Confirm `pyrmont/validators/validator_definitions.yaml` exists and that there is a directory in `pyrmont/validators` for the validator that contains the keystore file. For example:
+6. Confirm `prater/validators/validator_definitions.yaml` exists and that there is a directory in `prater/validators` for the validator that contains the keystore file. For example:
 
 ```
-├── pyrmont
+├── prater
     └── validators
     |   └── 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     └── keystore-XXXXXX.json
@@ -80,11 +80,11 @@ cd eth2-kubernetes
 ```
 13. Use `gsutil` to copy your validators folder from storage into the `lighthouse` directory in the clone repo:
 ```
-gsutil cp -r gs://YOUR_PROJECT_ID-lighthouse/pyrmont ./lighthouse
+gsutil cp -r gs://YOUR_PROJECT_ID-lighthouse/prater ./lighthouse
 ```
 14. Build the lighthouse docker image with your validator config and push into Google Container Registery:
 ```
-docker build -t us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest ./lighthouse/ --build-arg VALIDATOR_PATH=pyrmont/validators
+docker build -t us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest ./lighthouse/ --build-arg VALIDATOR_PATH=prater/validators
 
 docker push us.gcr.io/YOUR_PROJECT_ID/lighthouse:latest
 ```
@@ -98,15 +98,15 @@ docker push us.gcr.io/YOUR_PROJECT_ID/grafana:latest
 ```
 15. Use `helm` to deploy `geth` and `lighthouse` to Kubernetes
 ```
-helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-pyrmont infrastructure/
+helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-prater infrastructure/
 ```
 16. Check that the deployment was successful in the GKE dashboard
 17. The storage disks created will persist, should you need to delete and redeploy the infrastructure, you can run:
 ```
-helm delete eth2-pyrmont
+helm delete eth2-prater
 ```
 Followed by:
 ```
-helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-pyrmont infrastructure/
+helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-prater infrastructure/
 
 ```

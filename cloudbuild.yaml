@@ -2,7 +2,7 @@
 substitutions:
   _TARGET_CLUSTER: eth2
   _TARGET_ZONE: us-central1-c
-  _LIGHTHOUSE_NETWORK: pyrmont
+  _LIGHTHOUSE_NETWORK: prater
   _GETH_NETWORK: goerli
 
 steps:
