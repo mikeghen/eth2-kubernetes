@@ -98,7 +98,7 @@ docker push us.gcr.io/YOUR_PROJECT_ID/grafana:latest
 ```
 15. Use `helm` to deploy `geth` and `lighthouse` to Kubernetes
 ```
-helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-prater infrastructure/
+helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/YOUR_PROJECT_ID/lighthouse --set grafana.image.repository=us.gcr.io/YOUR_PROJECT_ID/grafana --set prometheus.image.repository=us.gcr.io/YOUR_PROJECT_ID/prometheus eth2-prater infrastructure/
 ```
 16. Check that the deployment was successful in the GKE dashboard
 17. The storage disks created will persist, should you need to delete and redeploy the infrastructure, you can run:
@@ -107,6 +107,6 @@ helm delete eth2-prater
 ```
 Followed by:
 ```
-helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/eth2-development/lighthouse --set grafana.image.repository=us.gcr.io/eth2-development/grafana --set prometheus.image.repository=us.gcr.io/eth2-development/prometheus eth2-prater infrastructure/
+helm upgrade --install --set lighthouse.image.tag=latest --set lighthouse.image.repository=us.gcr.io/YOUR_PROJECT_ID/lighthouse --set grafana.image.repository=us.gcr.io/YOUR_PROJECT_ID/grafana --set prometheus.image.repository=us.gcr.io/YOUR_PROJECT_ID/prometheus eth2-prater infrastructure/
 
 ```
